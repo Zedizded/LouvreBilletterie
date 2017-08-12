@@ -1,0 +1,119 @@
+<?php
+
+namespace Louvre\TicketBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Booking
+ *
+ * @ORM\Table(name="booking")
+ * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\BookingRepository")
+ */
+class Booking
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="payment", type="boolean")
+     */
+    private $payment;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=255)
+     */
+    private $reference;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Visitors", mappedBy="booking", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $visitors;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tickets;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Louvre\TicketBundle\Entity\Date", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commandDate;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Louvre\TicketBundle\Entity\Date", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $bookingDate;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set payment
+     *
+     * @param boolean $payment
+     *
+     * @return Booking
+     */
+    public function setPayment($payment)
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    /**
+     * Get payment
+     *
+     * @return bool
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Booking
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+}
