@@ -1,219 +1,282 @@
 <?php
-
-namespace Louvre\TicketBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Visitors
- *
- * @ORM\Table(name="visitors")
- * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\VisitorsRepository")
- */
-class Visitors
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstName", type="string", length=255)
-     */
-    private $firstName;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="birthday", type="date")
-     */
-    private $birthday;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="country", type="string", length=255)
-     */
-    private $country;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="visitors", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $booking;
-
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Visitors
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     *
-     * @return Visitors
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set birthday
-     *
-     * @param \DateTime $birthday
-     *
-     * @return Visitors
-     */
-    public function setBirthday($birthday)
-    {
-        $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    /**
-     * Get birthday
-     *
-     * @return \DateTime
-     */
-    public function getBirthday()
-    {
-        return $this->birthday;
-    }
-
-    /**
-     * Set country
-     *
-     * @param string $country
-     *
-     * @return Visitors
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    /**
-     * Get country
-     *
-     * @return string
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Visitors
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set booking
-     *
-     * @param \Louvre\TicketBundle\Entity\Booking $booking
-     *
-     * @return Visitors
-     */
-    public function setBooking(\Louvre\TicketBundle\Entity\Booking $booking)
-    {
-        $this->booking = $booking;
-
-        return $this;
-    }
-
-    /**
-     * Get booking
-     *
-     * @return \Louvre\TicketBundle\Entity\Booking
-     */
-    public function getBooking()
-    {
-        return $this->booking;
-    }
-}
+ 
+ namespace Louvre\TicketBundle\Entity;
+ 
+ use Doctrine\ORM\Mapping as ORM;
+ use Louvre\TicketBundle\Entity\Booking;
+ 
+ /**
+  * Visitors
+  *
+  * @ORM\Table(name="visitors")
+  * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\VisitorsRepository")
+  */
+ class Visitors
+ {
+     /**
+      * @var int
+      *
+      * @ORM\Column(name="id", type="integer")
+      * @ORM\Id
+      * @ORM\GeneratedValue(strategy="AUTO")
+      */
+     private $id;
+ 
+     /**
+      * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="visitors", cascade={"persist", "remove"})
+      * @ORM\JoinColumn(nullable=false)
+      */
+     private $booking;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="name", type="string", length=255)
+      */
+     private $name;
+ 
+     /**
+      * @var \DateTime
+      *
+      * @ORM\Column(name="ticketDate", type="datetime")
+      */
+     private $ticketDate;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="visitorName", type="string", length=255)
+      */
+     private $visitorName;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="visitorFirstName", type="string", length=255)
+      */
+     private $visitorFirstName;
+ 
+     /**
+      * @var \DateTime
+      *
+      * @ORM\Column(name="visitorBirth", type="datetime")
+      */
+     private $visitorBirth;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="visitorCountry", type="string", length=10)
+      */
+     private $visitorCountry;
+ 
+     /**
+      * @var bool
+      *
+      * @ORM\Column(name="reduceTicket", type="boolean")
+      */
+     private $reduceTicket;
+ 
+ 
+     /**
+      * Get id
+      *
+      * @return int
+      */
+     public function getId()
+     {
+         return $this->id;
+     }
+ 
+     /**
+      * Set booking
+      *
+      * @param \Louvre\TicketBundle\Entity\Booking $booking
+      *
+      * @return Visitors
+      */
+     public function setBooking(Booking $booking)
+     {
+         $this->booking = $booking;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get booking
+      *
+      * @return \Louvre\TicketBundle\Entity\Booking
+      */
+     public function getBooking()
+     {
+         return $this->booking;
+     }
+ 
+     /**
+      * Set name
+      *
+      * @param string $name
+      *
+      * @return Visitors
+      */
+     public function setName($name)
+     {
+         $this->name = $name;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get name
+      *
+      * @return string
+      */
+     public function getName()
+     {
+         return $this->name;
+     }
+ 
+     /**
+      * Set ticketDate
+      *
+      * @param \DateTime $ticketDate
+      *
+      * @return Visitors
+      */
+     public function setTicketDate($ticketDate)
+     {
+         $this->ticketDate = $ticketDate;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get ticketDate
+      *
+      * @return \DateTime
+      */
+     public function getTicketDate()
+     {
+         return $this->ticketDate;
+     }
+ 
+     /**
+      * Set visitorName
+      *
+      * @param string $visitorName
+      *
+      * @return Visitors
+      */
+     public function setVisitorName($visitorName)
+     {
+         $this->visitorName = $visitorName;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get visitorName
+      *
+      * @return string
+      */
+     public function getVisitorName()
+     {
+         return $this->visitorName;
+     }
+ 
+     /**
+      * Set visitorFirstName
+      *
+      * @param string $visitorFirstName
+      *
+      * @return Visitors
+      */
+     public function setVisitorFirstName($visitorFirstName)
+     {
+         $this->visitorFirstName = $visitorFirstName;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get visitorFirstName
+      *
+      * @return string
+      */
+     public function getVisitorFirstName()
+     {
+         return $this->visitorFirstName;
+     }
+ 
+     /**
+      * Set visitorBirth
+      *
+      * @param \DateTime $visitorBirth
+      *
+      * @return Visitors
+      */
+     public function setVisitorBirth($visitorBirth)
+     {
+         $this->visitorBirth = $visitorBirth;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get visitorBirth
+      *
+      * @return \DateTime
+      */
+     public function getVisitorBirth()
+     {
+         return $this->visitorBirth;
+     }
+ 
+     /**
+      * Set visitorCountry
+      *
+      * @param string $visitorCountry
+      *
+      * @return Visitors
+      */
+     public function setVisitorCountry($visitorCountry)
+     {
+         $this->visitorCountry = $visitorCountry;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get visitorCountry
+      *
+      * @return string
+      */
+     public function getVisitorCountry()
+     {
+         return $this->visitorCountry;
+     }
+ 
+     /**
+      * Set reduceTicket
+      *
+      * @param boolean $reduceTicket
+      *
+      * @return Visitors
+      */
+     public function setReduceTicket($reduceTicket)
+     {
+         $this->reduceTicket = $reduceTicket;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get reduceTicket
+      *
+      * @return bool
+      */
+     public function getReduceTicket()
+     {
+         return $this->reduceTicket;
+     }
+ }

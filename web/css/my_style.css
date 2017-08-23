@@ -48,6 +48,11 @@ a:hover {
     color: #7c7c7c;
 }
 
+#btnFormCollapse,
+#formCollapse {
+    margin-bottom: 29px;
+}
+
 @media screen and (max-width: 768px) {
     body {
         padding-top: 50px;
@@ -60,6 +65,12 @@ a:hover {
     }
     .navbar-collapse {
         background-color: #fff;
+    }
+    .jumbotron h1 {
+        font-size: 3em;
+    }
+    .jumbotron p {
+        font-size: 0.9em;
     }
 }
 

@@ -1,249 +1,301 @@
 <?php
-
-namespace Louvre\TicketBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Booking
- *
- * @ORM\Table(name="booking")
- * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\BookingRepository")
- */
-class Booking
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="payment", type="boolean")
-     */
-    private $payment;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reference", type="string", length=255)
-     */
-    private $reference;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Visitors", mappedBy="booking", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $visitors;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $tickets;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Louvre\TicketBundle\Entity\Date", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $commandDate;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Louvre\TicketBundle\Entity\Date", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $bookingDate;
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set payment
-     *
-     * @param boolean $payment
-     *
-     * @return Booking
-     */
-    public function setPayment($payment)
-    {
-        $this->payment = $payment;
-
-        return $this;
-    }
-
-    /**
-     * Get payment
-     *
-     * @return bool
-     */
-    public function getPayment()
-    {
-        return $this->payment;
-    }
-
-    /**
-     * Set reference
-     *
-     * @param string $reference
-     *
-     * @return Booking
-     */
-    public function setReference($reference)
-    {
-        $this->reference = $reference;
-
-        return $this;
-    }
-
-    /**
-     * Get reference
-     *
-     * @return string
-     */
-    public function getReference()
-    {
-        return $this->reference;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->visitors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add visitor
-     *
-     * @param \Louvre\TicketBundle\Entity\Visitors $visitor
-     *
-     * @return Booking
-     */
-    public function addVisitor(\Louvre\TicketBundle\Entity\Visitors $visitor)
-    {
-        $this->visitors[] = $visitor;
-        
-        // On lie le visiteur à la réservation
-        $visitor->setBooking($this); // Voir table2.txt
-        
-        return $this;
-    }
-
-    /**
-     * Remove visitor
-     *
-     * @param \Louvre\TicketBundle\Entity\Visitors $visitor
-     */
-    public function removeVisitor(\Louvre\TicketBundle\Entity\Visitors $visitor)
-    {
-        $this->visitors->removeElement($visitor);
-    }
-
-    /**
-     * Get visitors
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getVisitors()
-    {
-        return $this->visitors;
-    }
-
-    /**
-     * Add ticket
-     *
-     * @param \Louvre\TicketBundle\Entity\Ticket $ticket
-     *
-     * @return Booking
-     */
-    public function addTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
-    {
-        $this->tickets[] = $ticket;
-        
-        // On lie le billet à la réservation
-        $ticket->setBooking($this); // Voir table2.txt
-
-        return $this;
-    }
-
-    /**
-     * Remove ticket
-     *
-     * @param \Louvre\TicketBundle\Entity\Ticket $ticket
-     */
-    public function removeTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
-    {
-        $this->tickets->removeElement($ticket);
-    }
-
-    /**
-     * Get tickets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTickets()
-    {
-        return $this->tickets;
-    }
-
-    /**
-     * Set commandDate
-     *
-     * @param \Louvre\TicketBundle\Entity\Date $commandDate
-     *
-     * @return Booking
-     */
-    public function setCommandDate(\Louvre\TicketBundle\Entity\Date $commandDate)
-    {
-        $this->commandDate = $commandDate;
-
-        return $this;
-    }
-
-    /**
-     * Get commandDate
-     *
-     * @return \Louvre\TicketBundle\Entity\Date
-     */
-    public function getCommandDate()
-    {
-        return $this->commandDate;
-    }
-
-    /**
-     * Set bookingDate
-     *
-     * @param \Louvre\TicketBundle\Entity\Date $bookingDate
-     *
-     * @return Booking
-     */
-    public function setBookingDate(\Louvre\TicketBundle\Entity\Date $bookingDate)
-    {
-        $this->bookingDate = $bookingDate;
-
-        return $this;
-    }
-
-    /**
-     * Get bookingDate
-     *
-     * @return \Louvre\TicketBundle\Entity\Date
-     */
-    public function getBookingDate()
-    {
-        return $this->bookingDate;
-    }
-}
+ 
+ namespace Louvre\TicketBundle\Entity;
+ 
+ use Doctrine\ORM\Mapping as ORM;
+ use Doctrine\Common\Collections\ArrayCollection;
+ use Louvre\TicketBundle\Entity\Visitors;
+ 
+ /**
+  * Booking
+  *
+  * @ORM\Table(name="booking")
+  * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\BookingRepository")
+  */
+ class Booking
+ {
+     /**
+      * @var int
+      *
+      * @ORM\Column(name="id", type="integer")
+      * @ORM\Id
+      * @ORM\GeneratedValue(strategy="AUTO")
+      */
+     private $id;
+ 
+     /**
+      * @var \DateTime
+      *
+      * @ORM\Column(name="commandDate", type="datetime")
+      */
+     private $commandDate;
+ 
+     /**
+      * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Visitors", mappedBy="booking", cascade={"persist", "remove"})
+      * @ORM\JoinColumn(nullable=false)
+      */
+     private $visitors;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="email", type="string", length=255)
+      */
+     private $email;
+ 
+     /**
+      * @var bool
+      *
+      * @ORM\Column(name="ticketType", type="boolean")
+      */
+     private $ticketType;
+ 
+     /**
+      * @var \DateTime
+      *
+      * @ORM\Column(name="ticketDate", type="datetime")
+      */
+     private $ticketDate;
+ 
+     /**
+      * @var int
+      *
+      * @ORM\Column(name="totalNbTickets", type="integer")
+      */
+     private $totalNbTickets;
+ 
+     /**
+      * @var string
+      *
+      * @ORM\Column(name="commandReference", type="string", length=255, unique=true)
+      */
+     private $commandReference;
+ 
+     /**
+      * @var int
+      *
+      * @ORM\Column(name="totalPrice", type="integer")
+      */
+     private $totalPrice;
+ 
+     /**
+      * Constructor
+      */
+     public function __construct()
+     {
+         $this->commandDate = new \Datetime();
+         $this->visitors = new ArrayCollection();
+     }
+ 
+     /**
+      * Get id
+      *
+      * @return int
+      */
+     public function getId()
+     {
+         return $this->id;
+     }
+ 
+     /**
+      * Set commandDate
+      *
+      * @param \DateTime $commandDate
+      *
+      * @return Booking
+      */
+     public function setCommandDate($commandDate)
+     {
+         $this->commandDate = $commandDate;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get commandDate
+      *
+      * @return \DateTime
+      */
+     public function getCommandDate()
+     {
+         return $this->commandDate;
+     }
+ 
+     /**
+      * Add visitor
+      *
+      * @param Visitors $visitor
+      *
+      * @return Booking
+      */
+     public function addVisitor(Visitors $visitor)
+     {
+         $this->visitors[] = $visitor;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Remove visitor
+      *
+      * @param Visitors $visitor
+      */
+     public function removeVisitor(Visitors $visitor)
+     {
+         $this->visitors->removeElement($visitor);
+     }
+ 
+     /**
+      * Get visitors
+      *
+      * @return \Doctrine\Common\Collections\Collection
+      */
+     public function getVisitors()
+     {
+         return $this->visitors;
+     }
+ 
+     /**
+      * Set email
+      *
+      * @param string $email
+      *
+      * @return Booking
+      */
+     public function setEmail($email)
+     {
+         $this->email = $email;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get email
+      *
+      * @return string
+      */
+     public function getEmail()
+     {
+         return $this->email;
+     }
+ 
+     /**
+      * Set ticketType
+      *
+      * @param boolean $ticketType
+      *
+      * @return Booking
+      */
+     public function setTicketType($ticketType)
+     {
+         $this->ticketType = $ticketType;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get ticketType
+      *
+      * @return bool
+      */
+     public function getTicketType()
+     {
+         return $this->ticketType;
+     }
+ 
+     /**
+      * Set ticketDate
+      *
+      * @param \DateTime $ticketDate
+      *
+      * @return Booking
+      */
+     public function setTicketDate($ticketDate)
+     {
+         $this->ticketDate = $ticketDate;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get ticketDate
+      *
+      * @return \DateTime
+      */
+     public function getTicketDate()
+     {
+         return $this->ticketDate;
+     }
+ 
+     /**
+      * Set totalNbTickets
+      *
+      * @param integer $totalNbTickets
+      *
+      * @return Booking
+      */
+     public function setTotalNbTickets($totalNbTickets)
+     {
+         $this->totalNbTickets = $totalNbTickets;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get totalNbTickets
+      *
+      * @return int
+      */
+     public function getTotalNbTickets()
+     {
+         return $this->totalNbTickets;
+     }
+ 
+     /**
+      * Set commandReference
+      *
+      * @param string $commandReference
+      *
+      * @return Booking
+      */
+     public function setCommandReference($commandReference)
+     {
+         $this->commandReference = $commandReference;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get commandReference
+      *
+      * @return string
+      */
+     public function getCommandReference()
+     {
+         return $this->commandReference;
+     }
+ 
+     /**
+      * Set totalPrice
+      *
+      * @param integer $totalPrice
+      *
+      * @return Booking
+      */
+     public function setTotalPrice($totalPrice)
+     {
+         $this->totalPrice = $totalPrice;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get totalPrice
+      *
+      * @return int
+      */
+     public function getTotalPrice()
+     {
+         return $this->totalPrice;
+     }
+ }
