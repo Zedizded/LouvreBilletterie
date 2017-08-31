@@ -1,4 +1,4 @@
-{# src/OC/PlatformBundle/Resources/views/Louvre/index.html.twig #}
+{# src/OC/PlatformBundle/Resources/views/Louvre/layout.html.twig #}
 
 <!doctype html>
 <html lang="fr">
@@ -6,6 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('lib/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
         <link href="{{ asset('lib/jquery-ui/jquery-ui.structure.min.css') }}" rel="stylesheet">
@@ -13,45 +14,21 @@
         <link href="{{ asset('css/my_style.css') }}" rel="stylesheet">
         <link href="{{ asset('img/pyramide-favicon.png') }}" rel="icon" type="image/x-icon"/>
 
-        <title>Musée du Louvre | Billetterie</title>
+        <title>{% block title %}Musée du Louvre{% endblock %}</title>
     </head>
     
-    <body data-spy="scroll" data-target=".navbar">
-        <div class="container-fluid">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="#carousel">
-                            <img class="img-responsive" id="logo" src="{{ asset('img/pyramide-logo2-h.png') }}" alt="" />
-                        </a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#carousel">Accueil</a></li>
-                            <li><a href="#billets">Billets</a></li>
-                            <li><a href="#infos">Infos</a></li>
-                            <li><a href="#plan">Plan</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+    <body data-spy="scroll" data-target=".navbar">        
+        {% block nav %}
+        {% endblock %}
         
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
         
         <footer class="footer">
             <p>© Musée du Louvre {{ 'now'|date('Y') }} | Paris</p>
             <p>Création originale <a href="http://zcomdezign.com"> © ZcOmDeZign</a></p>
         </footer>
-        
     </body>
-    
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -60,7 +37,7 @@
     
     <script>
         $(function() {
-            $('li>a').on('click', function(e) {
+            $('li>a, .indexLink').on('click', function(e) {
                 e.preventDefault();
                 var hash = this.hash;
                 $('html, body').animate({
@@ -70,16 +47,46 @@
                 });
             });
         });
+    </script>
+    
+    <script>
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy',
+            monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+            showAnim: "clip"
+        });
+        $.datepicker.regional['fr'];
+    </script>
+    
+    <script>
+        $('.alert').delay(4000).hide('slow');
     </script>    
     
     <script>
-        $(function() {
-            $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' })
+        $('.datepickerBooking').datepicker({
+    
+            dateFormat: 'dd/mm/yy',
+            monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            firstDay: 1 ,
 
+            beforeShowDay: function(date) {
+              var day = date.getDay();
+              var disabledSpecificDays = ["05-01", "11-01", "12-25"];
+              var string = jQuery.datepicker.formatDate("mm-dd", date);
+
+              return [(day != 0) && (day != 2) && (disabledSpecificDays.indexOf(string) == -1)];
+            },
+
+            dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+            weekHeader: 'Sem.',
+            minDate: 0,
+            showAnim: "clip"
         });
+
+        $.datepicker.regional['fr'];
+
+        var disabledSpecificDays = ["2017/05/1", "2017/11/1", "2017/12/25", "2018/05/1", "2018/11/1", "2018/12/25", "2019/05/1", "2019/11/1", "2019/12/25", "2020/05/1", "2020/11/1", "2020/12/25"];
     </script>
     
-
-
-
 </html>

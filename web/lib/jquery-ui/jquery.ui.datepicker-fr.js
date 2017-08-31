@@ -19,8 +19,8 @@ jQuery(function($){
 		isRTL: false,
 		showMonthAfterYear: false,
 		yearSuffix: '',
-		minDate: 0,
-		maxDate: '+12M +0D',
+		minDate: '-1200M +0D',
+		maxDate: '+48M +0D',
 		numberOfMonths: 1,
 		showButtonPanel: true
 		};

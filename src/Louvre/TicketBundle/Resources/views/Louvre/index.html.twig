@@ -1,58 +1,112 @@
 {# src/OC/PlatformBundle/Resources/views/Louvre/index.html.twig #}
 
 {% extends "LouvreTicketBundle::layout.html.twig" %}
+
+{% set homePage = true %}
+       
+{% block title %}{{ parent () }} | Accueil{% endblock %}
+
+{% block nav %}
+        <div class="container-fluid">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="{{ path('homepage') }}">
+                            <img class="img-responsive" id="logo" src="{{ asset('img/pyramide-logo2-h.png') }}" alt="louvre-logo" />
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#carousel">Accueil</a></li>
+                            <li><a href="#billets">Billets</a></li>
+                            <li><a href="#infos">Infos</a></li>
+                            <li><a href="#plan">Plan</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+{% endblock %}
         
 {% block content %}
-<div id="carousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carousel" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel" data-slide-to="1"></li>
-        <li data-target="#carousel" data-slide-to="2"></li>
-        <li data-target="#carousel" data-slide-to="3"></li>
-        <li data-target="#carousel" data-slide-to="4"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="item active"> <img alt="" src="{{ asset('img/louvre-01.jpg') }}"></div>
-        <div class="item"> <img alt="" src="{{ asset('img/louvre-02.jpg') }}"></div>
-        <div class="item"> <img alt="" src="{{ asset('img/louvre-03.jpg') }}"></div>
-        <div class="item"> <img alt="" src="{{ asset('img/louvre-04.jpg') }}"></div>
-        <div class="item"> <img alt="" src="{{ asset('img/louvre-05.jpg') }}"></div>
-    </div>
-</div>
 
-
-<div class="jumbotron" id="billets">
-    <div class="container">
-        <h1>Billetterie</h1>
-        <button id="btnFormCollapse" type="button" class="btn btn-default" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse">Réservation</button>
-        <div id="formCollapse" class="collapse">
-<!--
-            TODO formulaire
--->
-        </div>
-        <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> 
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-    </div>
-</div>
-
-<div class="jumbotron" id="infos">
-    <div class="container">
-        <h1>Infos pratiques</h1>
-        <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> 
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-    </div>
-</div>
-
-<div class="jumbotron" id="plan">
-    <div class="container">
-        <h1>Plan d'accès</h1>
-        <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p><br>
-        <div class="embed-responsive embed-responsive-4by3">
-            <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10499.496405115677!2d2.337644!3d48.8606111!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb975fcfa192f84d4!2sMus%C3%A9e+du+Louvre!5e0!3m2!1sfr!2sfr!4v1502567715218" width="600" height="450" style="border:0; border-radius:4px; box-shadow: 0px 0px 7px rgba(0,0,0, 0.29);" allowfullscreen></iframe>
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+            <li data-target="#carousel" data-slide-to="3"></li>
+            <li data-target="#carousel" data-slide-to="4"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active"> <img alt="" src="{{ asset('img/louvre-01.jpg') }}"></div>
+            <div class="item"> <img alt="" src="{{ asset('img/louvre-02.jpg') }}"></div>
+            <div class="item"> <img alt="" src="{{ asset('img/louvre-03.jpg') }}"></div>
+            <div class="item"> <img alt="" src="{{ asset('img/louvre-04.jpg') }}"></div>
+            <div class="item"> <img alt="" src="{{ asset('img/louvre-05.jpg') }}"></div>
         </div>
     </div>
-</div>
+
+    <div class="jumbotron" id="billets">
+        <div class="container">
+            <h1>Billetterie</h1>
+            <p>Bienvenue sur le site de la billetterie en ligne du musée du Louvre à Paris.</p> 
+            <p>Vous allez pouvoir effectuer vos réservations en toute simplicité pour vous, votre famille et vos amis.</p>
+            <p>Vous vous éviterez ainsi de devoir patienter dans la file d'attente, et pourrez découvrir les merveilles détenues par le musée en toute quiétude, pour votre plus grand plaisir.</p>
+            <p><strong>Retrouvez également :</strong></p> 
+            <ul>
+                <li><a class="indexLink" href="#infos">Les informations pratiques</a></li>
+                <li><a class="indexLink" href="#plan">Le plan d'accès</a></li>
+            </ul>
+            <p>Toute l'équipe du musée vous souhaite une agréable visite et vous dit "À bientôt !"</p><br>
+            <a href="{{ path('louvre_booking') }}" class="btn col-xs-12 btn-default myBtnDefault"><span class="glyphicon glyphicon-calendar"></span><br>Réservation</a>
+        </div>
+    </div>
+
+    <div class="jumbotron" id="infos">
+        <div class="container">
+            <h1>Infos pratiques</h1>
+            <h2>Horaires</h2>
+            <ul>
+                <li><strong>Lundi : </strong>9h-18h</li>
+                <li><strong>Mardi : </strong>Fermé</li>
+                <li><strong>Mercredi : </strong>9h-22h</li>
+                <li><strong>Jeudi : </strong>9h-18h</li>
+                <li><strong>Vendredi : </strong>9h-22h</li>
+                <li><strong>Samedi : </strong>9h-18h</li>
+                <li><strong>Dimanche : </strong>9h-18h</li>
+            </ul><br>
+            <h2>Tarifs</h2>
+            <ul>
+                <li><strong>Moins de 4 ans : </strong>Gratuit</li>
+                <li><strong>De 4 à 12 ans : </strong>8€</li>
+                <li><strong>Réduit : </strong>10€</li>
+                <li><strong>Sénior (à partir de 60 ans) : </strong>12€</li>
+                <li><strong>Normal : </strong>16€</li>
+            </ul>
+            <p>Un justificatif sera demandé à l'entrée pour les bénéficiaires du <strong>tarif réduit</strong> (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</p>
+            <br>
+            <h2>Réservations</h2>
+            <p>Le musée est fermé tous les mardis, le 1er mai, le 1er novembre et le 25 décembre. Il n'est pas possible de réserver sur ces dates.</p>
+            <p>D'autre part, il est impossible de réserver pour les dimanches, les jours fériés, les jours où 1000 billets ont déjà été vendus afin que vous puissiez effectuer votre visite dans les meilleurs conditions possible. Nous vous remercions de votre compréhension.</p>
+        </div>
+    </div>
+
+    <div class="jumbotron" id="plan">
+        <div class="container">
+            <h1>Plan d'accès</h1>
+            <p>Situé en plein cœur de Paris, à deux pas du pont des Arts, le musée est desservi par la station de métro <em>Louvre Rivoli</em> sur la ligne 1.</p><br>
+            <div class="embed-responsive embed-responsive-4by3">
+                <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10499.496405115677!2d2.337644!3d48.8606111!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb975fcfa192f84d4!2sMus%C3%A9e+du+Louvre!5e0!3m2!1sfr!2sfr!4v1502567715218" width="600" height="450" style="border:0; border-radius:4px; box-shadow: 0px 0px 7px rgba(0,0,0, 0.29);" allowfullscreen></iframe>
+            </div><br>
+            <a href="#carousel" class="indexLink btn btn-default myBtnDefault fr"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        </div>
+    </div>
+
 {% endblock %}
         

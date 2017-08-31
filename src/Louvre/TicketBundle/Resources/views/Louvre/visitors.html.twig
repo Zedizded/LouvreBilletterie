@@ -1,0 +1,132 @@
+{# src/OC/PlatformBundle/Resources/views/Louvre/visitors.html.twig #}
+
+{% extends "LouvreTicketBundle::layout.html.twig" %}
+
+{% set bookingPage = true %}
+
+{% block title %}{{ parent () }} - Identification{% endblock %}
+
+{% block content %}
+  
+<div class="logoV">
+    <a href="{{ path('homepage') }}">
+        <img class="img-responsive" src="{{ asset('img/pyramide-logo-v.jpg') }}" alt="louvre-logo">
+    </a>
+</div>
+
+<div id="jumboBooking" class="jumbotron">
+    <div class="container">
+        <h1 id="titreResa">Identification</h1>
+        <p>Étape 2 / </p>
+
+        {% if nbVisitors == 1%}
+
+        <small>Vous avez réservez pour {{ nbVisitors }} personne, il ne vous reste plus qu'à nous faire part de son identité</small><br><br>
+        <button type="button" class="btn col-xs-12 btn-default myBtnDefault mb-29" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteur</button>                      
+        {% else %}
+
+        <small>Vous avez réservez pour {{ nbVisitors }} personnes, il ne vous reste plus qu'à nous faire part de leur identité</small><br><br>
+        <button type="button" class="btn col-xs-12 btn-default myBtnDefault mb-29" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteurs</button>
+
+        {% endif %}
+    </div>
+        <div class="container">
+
+        <div id="formCollapse" class="well collapse mt-9">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            {{ form_errors(form) }}
+
+            {% for visitor in form.visitors %}
+
+            <div class="form-group">
+                {{ form_label(visitor.visitorName, "Nom* :", { 'label_attr': {
+                    'class': 'col-sm-4 control-label'
+                }}) }}
+                <div class="col-sm-6">
+                    {{ form_errors(visitor.visitorName) }}
+                    {{ form_widget(visitor.visitorName, {'attr': {
+                        'class': 'form-control',
+                        'placeholder': 'Nom'
+                    }}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(visitor.visitorFirstName, "Prénom* :", { 'label_attr': {
+                    'class': 'col-sm-4 control-label'
+                }}) }}
+                <div class="col-sm-6">
+                    {{ form_errors(visitor.visitorFirstName) }}
+                    {{ form_widget(visitor.visitorFirstName, {'attr': {
+                        'class': 'form-control',
+                        'placeholder': 'Prénom'
+                    }}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(visitor.visitorBirth, "Date de naissance* :", { 'label_attr': {
+                    'class': 'col-sm-4 control-label'
+                }}) }}
+                <div class="col-sm-6">
+                    {{ form_errors(visitor.visitorBirth) }}
+                    {{ form_widget(visitor.visitorBirth, {'attr': {
+                        'class': 'form-control datepicker',
+                        'placeholder': 'jj/mm/aaaa'
+                    }}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(visitor.visitorCountry, "Pays de résidence* :", { 'label_attr': {
+                    'class': 'col-sm-4 control-label'
+                }}) }}
+                <div class="col-sm-6">
+                    {{ form_errors(visitor.visitorCountry) }}
+                    {{ form_widget(visitor.visitorCountry, {'attr': {
+                        'class': 'form-control',
+                        'placeholder': 'France'
+                    }}) }}
+                </div>
+            </div>
+            
+            <div class="col-sm-4 col-sm-offset-4">
+
+           {{ form_row(visitor.reduceTicket) }}
+           </div>
+           
+            <small class="col-sm-8 col-sm-offset-2">Un justificatif sera demandé à l'entrée pour les bénéficiaires du <strong>tarif réduit</strong> (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</small>
+            <div class="form-group">
+                {{ form_label(visitor.reduceTicket, "Tarif réduit :", { 'label_attr': {
+                    'class': 'col-sm-4 control-label'
+                }}) }}
+                <div class="col-sm-6">
+                    {{ form_errors(visitor.reduceTicket) }}
+                    {{ form_widget(visitor.reduceTicket, {'attr': {
+                        'class': 'form-control',
+                    }}) }}
+                </div>
+            </div>
+            
+            {% if not loop.last %}
+            <hr>
+            {% endif %}
+
+            {% endfor %}
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p class="requireField">*Champs obligatoires</p>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-check"></span> Valider</button><br>
+        <a href="{{ path('louvre_booking_cancel', {'id': bookingId}) }}" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
+    </div>
+</div>
+
+{% endblock %}
