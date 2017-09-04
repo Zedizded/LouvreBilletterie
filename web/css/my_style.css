@@ -44,6 +44,10 @@ label {
     margin-bottom: 9px;
 }
 
+.mb-50 {
+    margin-bottom: 50px;
+}
+
 .navbar {
     height: 79px;
 }
@@ -130,6 +134,7 @@ label {
 #formCollapse {
     margin-top: 29px;
 }
+
 @media screen and (max-width: 768px) {
     body {
         padding-top: 21px;

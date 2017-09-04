@@ -23,7 +23,7 @@ class TicketsPrices
         $date = $booking->getTicketDate();
         $ticketType = $booking->getTicketType();
 
-        $age = ($birth->diff($date))->y;
+        $age = $birth->diff($date)->format('%y');
 
         if ($reduceTicket == 1) {
             $ticketPrice = 10;

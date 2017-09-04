@@ -32,12 +32,10 @@ class LouvreController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $booking->setTotalPrice(0);
-            $ref = $this->bookingCode(5);
+            $ref = $this->bookingCodeAction(5);
             $booking->setCommandReference($ref);
             $em->persist($booking);
             $em->flush();
-
-            $request->getSession()->getFlashBag()->add('success', 'Merci de renseigner l\'identité des visiteurs');
 
             return $this->redirectToRoute('louvre_booking_visitors/id', array('id' => $booking->getId()));
         }
@@ -58,18 +56,18 @@ class LouvreController extends Controller
         $ticketDate = $booking->getTicketDate();
 
         for($i = 1 ; $i <= $nbVisitors; $i++) {
-            ${'visitor'.$i.'_b'.$id} = new Visitors();
-            ${'visitor'.$i.'_b'.$id}->setIdentity('visitor'.$i.'_b'.$id);
-            ${'visitor'.$i.'_b'.$id}->setBooking($booking);
-            ${'visitor'.$i.'_b'.$id}->setTicketDate($ticketDate);
-            $booking->addVisitor(${'visitor'.$i.'_b'.$id});
+            ${'B' . $id . 'V' . $i} = new Visitors();
+            ${'B' . $id . 'V' . $i}->setIdentification('B' . $id . 'V' . $i);
+            ${'B' . $id . 'V' . $i}->setBooking($booking);
+            ${'B' . $id . 'V' . $i}->setTicketDate($ticketDate);
+            $booking->addVisitor(${'B' . $id . 'V' . $i});
         }
 
         $form = $this->get('form.factory')->create(VisitorsType::class, $booking);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $ref = $this->bookingCode(10);
-            $ref = substr( ${'visitor1_b'.$id}->getVisitorName(), 0, 3) . '-' . $ref;
+            $ref = $this->bookingCodeAction(10);
+            $ref = ${'B' . $id . 'V1'}->getVisitorName() . '_' . $ref;
             $booking->setCommandReference($ref);
             $em->persist($booking);
             $visitors = $booking->getVisitors();
@@ -86,9 +84,7 @@ class LouvreController extends Controller
 
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('info', 'Veuillez vérifier votre commande et procéder au règlement.');
-
-            return $this->redirectToRoute('louvre_booking_summary/id', array('id' => $booking->getId()));
+            return $this->redirectToRoute('louvre_booking_order/id', array('id' => $booking->getId()));
         }
 
         return $this->render('LouvreTicketBundle:Louvre:visitors.html.twig', array(
@@ -96,6 +92,19 @@ class LouvreController extends Controller
             'nbVisitors' => $nbVisitors,
             'bookingId' => $id));
     }
+    
+    /**
+     * @Route("/booking/order/{id}", name="louvre_booking_order/id")
+     */
+    public function orderAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('LouvreTicketBundle:Booking')->find($id);
+
+        return $this->render('LouvreTicketBundle:Louvre:order.html.twig', array(
+            'booking' => $booking,
+            'bookingId' => $id));
+    }    
     
     /**
      * @Route("/booking/cancel/{id}", name="louvre_booking_cancel")
@@ -108,7 +117,7 @@ class LouvreController extends Controller
         $em->remove($booking);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('info', 'Votre commande a bien été annulée.');
+        $request->getSession()->getFlashBag()->add('success', 'Votre commande a bien été annulée.');
 
         return $this->redirectToRoute('louvre_homepage');
     }    
@@ -120,8 +129,8 @@ class LouvreController extends Controller
      *
      * @return string
      */
-    public function bookingCode($number) {
-        $ref = date('Ymd') . '-';
+    private function bookingCodeAction($number) {
+        $ref = date('d/m/Y') . '_';
         $string = 'A0B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5Q6R7S8U9T0V4W5X6Y7Z5a6b7c8d9e0f1g2h3i4j5k6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z1';
         $nbChars = strlen($string);
 

@@ -4,7 +4,7 @@
 
 {% set bookingPage = true %}
 
-{% block title %}{{ parent () }} - Identification{% endblock %}
+{% block title %}{{ parent () }} | Identification{% endblock %}
 
 {% block content %}
   
@@ -19,101 +19,92 @@
         <h1 id="titreResa">Identification</h1>
         <p>Étape 2 / </p>
 
-        {% if nbVisitors == 1%}
+        {% if nbVisitors == 1 %}
 
         <small>Vous avez réservez pour {{ nbVisitors }} personne, il ne vous reste plus qu'à nous faire part de son identité</small><br><br>
-        <button type="button" class="btn col-xs-12 btn-default myBtnDefault mb-29" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteur</button>                      
+        <button type="button" class="btn col-xs-12 btn-default myBtnDefault" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteur</button>                      
         {% else %}
 
         <small>Vous avez réservez pour {{ nbVisitors }} personnes, il ne vous reste plus qu'à nous faire part de leur identité</small><br><br>
-        <button type="button" class="btn col-xs-12 btn-default myBtnDefault mb-29" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteurs</button>
+        <button type="button" class="btn col-xs-12 btn-default myBtnDefault" data-target="#formCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="formCollapse"><span class="glyphicon glyphicon-user"></span><br>Renseignements visiteurs</button>
 
         {% endif %}
     </div>
-        <div class="container">
-
-        <div id="formCollapse" class="well collapse mt-9">
+    
+    <div class="container">
+        <div id="formCollapse" class="collapse">
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
             {{ form_errors(form) }}
 
             {% for visitor in form.visitors %}
+                
+                <div class="well">
+                    <div class="form-group">
+                        {{ form_label(visitor.visitorName, "Nom* :", { 'label_attr': {
+                            'class': 'col-sm-4 control-label'
+                        }}) }}
+                        <div class="col-sm-6">
+                            {{ form_errors(visitor.visitorName) }}
+                            {{ form_widget(visitor.visitorName, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'Nom'
+                            }}) }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                {{ form_label(visitor.visitorName, "Nom* :", { 'label_attr': {
-                    'class': 'col-sm-4 control-label'
-                }}) }}
-                <div class="col-sm-6">
-                    {{ form_errors(visitor.visitorName) }}
-                    {{ form_widget(visitor.visitorName, {'attr': {
-                        'class': 'form-control',
-                        'placeholder': 'Nom'
-                    }}) }}
-                </div>
-            </div>
+                    <div class="form-group">
+                        {{ form_label(visitor.visitorFirstName, "Prénom* :", { 'label_attr': {
+                            'class': 'col-sm-4 control-label'
+                        }}) }}
+                        <div class="col-sm-6">
+                            {{ form_errors(visitor.visitorFirstName) }}
+                            {{ form_widget(visitor.visitorFirstName, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'Prénom'
+                            }}) }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                {{ form_label(visitor.visitorFirstName, "Prénom* :", { 'label_attr': {
-                    'class': 'col-sm-4 control-label'
-                }}) }}
-                <div class="col-sm-6">
-                    {{ form_errors(visitor.visitorFirstName) }}
-                    {{ form_widget(visitor.visitorFirstName, {'attr': {
-                        'class': 'form-control',
-                        'placeholder': 'Prénom'
-                    }}) }}
-                </div>
-            </div>
+                    <div class="form-group">
+                        {{ form_label(visitor.visitorBirth, "Date de naissance* :", { 'label_attr': {
+                            'class': 'col-sm-4 control-label'
+                        }}) }}
+                        <div class="col-sm-6">
+                            {{ form_errors(visitor.visitorBirth) }}
+                            {{ form_widget(visitor.visitorBirth, {'attr': {
+                                'class': 'form-control datepicker',
+                                'placeholder': 'jj/mm/aaaa'
+                            }}) }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                {{ form_label(visitor.visitorBirth, "Date de naissance* :", { 'label_attr': {
-                    'class': 'col-sm-4 control-label'
-                }}) }}
-                <div class="col-sm-6">
-                    {{ form_errors(visitor.visitorBirth) }}
-                    {{ form_widget(visitor.visitorBirth, {'attr': {
-                        'class': 'form-control datepicker',
-                        'placeholder': 'jj/mm/aaaa'
-                    }}) }}
-                </div>
-            </div>
+                    <div class="form-group">
+                        {{ form_label(visitor.visitorCountry, "Pays de résidence* :", { 'label_attr': {
+                            'class': 'col-sm-4 control-label'
+                        }}) }}
+                        <div class="col-sm-6">
+                            {{ form_errors(visitor.visitorCountry) }}
+                            {{ form_widget(visitor.visitorCountry, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'France'
+                            }}) }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                {{ form_label(visitor.visitorCountry, "Pays de résidence* :", { 'label_attr': {
-                    'class': 'col-sm-4 control-label'
-                }}) }}
-                <div class="col-sm-6">
-                    {{ form_errors(visitor.visitorCountry) }}
-                    {{ form_widget(visitor.visitorCountry, {'attr': {
-                        'class': 'form-control',
-                        'placeholder': 'France'
-                    }}) }}
-                </div>
-            </div>
-            
-            <div class="col-sm-4 col-sm-offset-4">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        {{ form_row(visitor.reduceTicket) }}
+                    </div>
 
-           {{ form_row(visitor.reduceTicket) }}
-           </div>
-           
-            <small class="col-sm-8 col-sm-offset-2">Un justificatif sera demandé à l'entrée pour les bénéficiaires du <strong>tarif réduit</strong> (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</small>
-            <div class="form-group">
-                {{ form_label(visitor.reduceTicket, "Tarif réduit :", { 'label_attr': {
-                    'class': 'col-sm-4 control-label'
-                }}) }}
-                <div class="col-sm-6">
-                    {{ form_errors(visitor.reduceTicket) }}
-                    {{ form_widget(visitor.reduceTicket, {'attr': {
-                        'class': 'form-control',
-                    }}) }}
+                    <small class="col-sm-10 col-sm-offset-1">Un justificatif sera demandé à l'entrée pour les bénéficiaires du <strong>tarif réduit</strong> (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</small><br><br><br>
                 </div>
-            </div>
-            
-            {% if not loop.last %}
-            <hr>
-            {% endif %}
 
             {% endfor %}
 
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-check"></span> Valider</button><br>
+                    <a href="{{ path('louvre_booking_cancel', {'id': bookingId}) }}" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
+                </div>
+                
             {{ form_rest(form) }}
             {{ form_end(form) }}
 
@@ -122,11 +113,7 @@
 </div>
 
 <div class="container">
-    <p class="requireField">*Champs obligatoires</p>
-    <div class="form-group">
-        <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-check"></span> Valider</button><br>
-        <a href="{{ path('louvre_booking_cancel', {'id': bookingId}) }}" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
-    </div>
+    <p class="requireField mt-9">*Champs obligatoires</p>
 </div>
 
 {% endblock %}

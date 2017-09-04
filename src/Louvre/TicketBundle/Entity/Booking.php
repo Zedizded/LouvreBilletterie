@@ -27,7 +27,7 @@ class Booking
    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="commandDate", type="datetime")
+     * @ORM\Column(name="commandDate", type="date")
      */
     private $commandDate;
 
@@ -57,10 +57,10 @@ class Booking
    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ticketDate", type="datetime")
+     * @ORM\Column(name="ticketDate", type="date")
      *
      * @Assert\NotBlank(message="Saisissez la date de votre visite")
-     * @Assert\DateTime(message="Cette date n'est pas valide")
+     * @Assert\Date(message="Cette date n'est pas valide")
      * @Assert\GreaterThanOrEqual(value="today", message="Vous ne pouvez plus réserver pour cette date.")
      *
      * @CheckDate()

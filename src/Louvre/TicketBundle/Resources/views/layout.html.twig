@@ -50,6 +50,19 @@
     </script>
     
     <script>
+        $('.alert').delay(4000).hide('slow');
+    </script>    
+
+    <script>
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true,
+                heightStyle: "fill"
+            });
+        });
+    </script>
+        
+    <script>
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy',
             monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -58,10 +71,6 @@
         });
         $.datepicker.regional['fr'];
     </script>
-    
-    <script>
-        $('.alert').delay(4000).hide('slow');
-    </script>    
     
     <script>
         $('.datepickerBooking').datepicker({

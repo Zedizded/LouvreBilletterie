@@ -32,14 +32,14 @@ class Visitors
    /**
      * @var string
      *
-     * @ORM\Column(name="identity", type="string", length=255)
+     * @ORM\Column(name="identification", type="string", length=255)
      */
-    private $identity;
+    private $identification;
 
    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ticketDate", type="datetime")
+     * @ORM\Column(name="ticketDate", type="date")
      */
     private $ticketDate;
 
@@ -60,9 +60,9 @@ class Visitors
    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="visitorBirth", type="datetime")
+     * @ORM\Column(name="visitorBirth", type="date")
      *
-     * @Assert\DateTime(message="Cette date n'est pas valide")
+     * @Assert\Date(message="Cette date n'est pas valide")
      */
     private $visitorBirth;
 
@@ -124,9 +124,9 @@ class Visitors
      *
      * @return Visitors
      */
-    public function setIdentity($identity)
+    public function setIdentification($identification)
     {
-        $this->identity = $identity;
+        $this->identification = $identification;
 
         return $this;
     }
@@ -136,9 +136,9 @@ class Visitors
      *
      * @return string
      */
-    public function getIdentity()
+    public function getIdentification()
     {
-        return $this->identity;
+        return $this->identification;
     }
 
    /**
