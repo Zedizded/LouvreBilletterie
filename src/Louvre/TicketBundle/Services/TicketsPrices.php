@@ -49,9 +49,10 @@ class TicketsPrices
                 $ticketPrice = 12;
             }
 
-            if ($ticketType == 0) {
-                $ticketPrice = $ticketPrice / 2;
-            }
+        }
+        
+        if ($ticketType == 0) {
+            $ticketPrice = $ticketPrice / 2;
         }
 
         return $ticketPrice;
@@ -66,7 +67,7 @@ class TicketsPrices
         $totalPrice = $booking->getTotalPrice();
 
         foreach ($visitors as $visitor) {
-            $totalPrice = $this->priceCounting($visitor->getId());
+            $totalPrice += $visitor->getTicketPrice();
         }
 
         return $totalPrice;

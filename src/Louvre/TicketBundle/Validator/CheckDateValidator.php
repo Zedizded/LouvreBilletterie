@@ -4,6 +4,7 @@ namespace Louvre\TicketBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\HttpFoundation\Request;
 
 class CheckDateValidator extends ConstraintValidator
 {
@@ -13,27 +14,41 @@ class CheckDateValidator extends ConstraintValidator
             $this->context->addViolation($constraint->messageInvalidDate);
         }
 
-        $day = $date->format('D');
-        $dateAndMonth = $date->format('d/m');
+        $dateDay = $date->format('D');
+        $dateMonth = $date->format('d/m');
+        $dateYear = $date->format('d/m/Y');
+        $today = date('d/m/Y');
+        $now = date('H:i:s');
+        
+        $request = Request::createFromGlobals();
+        $post = $request->request->get('louvre_ticketbundle_booking');
+        
+        if($post !== null)
+        {
+            $ticketType = $post['ticketType'];
+            if($today == $dateYear && strcmp($now, '14:00:00') > 0 && $ticketType == 1) {
+                $this->context->addViolation($constraint->messageDay);
+            }
+        }
 
-        if($day == 'Sun') {
+        if($dateDay == 'Sun') {
             $this->context->addViolation($constraint->messageSun);
         }
         
-        elseif($day == 'Tue') {
+        elseif($dateDay == 'Tue') {
             $this->context->addViolation($constraint->messageTue);
         }
         
-        elseif($dateAndMonth == '01/05') {
+        elseif($dateMonth == '01/05') {
             $this->context->addViolation($constraint->messageMay);
         }
         
-        elseif($dateAndMonth == '01/11') {
-            $this->context->addViolation($constraint->messageNovember);
+        elseif($dateMonth == '01/11') {
+            $this->context->addViolation($constraint->messageNov);
         }
         
-        elseif($dateAndMonth == '25/12') {
-            $this->context->addViolation($constraint->messageXmas);
+        elseif($dateMonth == '25/12') {
+            $this->context->addViolation($constraint->messageDec);
         }
     }
 }

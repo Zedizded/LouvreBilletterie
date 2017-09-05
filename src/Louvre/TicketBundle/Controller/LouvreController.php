@@ -22,7 +22,7 @@ class LouvreController extends Controller
     }
 
     /**
-     * @Route("/booking", name="louvre_booking")
+     * @Route("/booking", name="booking")
      */
     public function bookingAction(Request $request)
     {
@@ -37,7 +37,7 @@ class LouvreController extends Controller
             $em->persist($booking);
             $em->flush();
 
-            return $this->redirectToRoute('louvre_booking_visitors/id', array('id' => $booking->getId()));
+            return $this->redirectToRoute('booking_visitors/id', array('id' => $booking->getId()));
         }
 
         return $this->render('LouvreTicketBundle:Louvre:booking.html.twig', array(
@@ -46,7 +46,7 @@ class LouvreController extends Controller
     }
     
     /**
-     * @Route("/booking/visitors/{id}", name="louvre_booking_visitors/id")
+     * @Route("/booking/visitors/{id}", name="booking_visitors/id")
      */
     public function visitorsAction($id, Request $request)
     {
@@ -60,6 +60,7 @@ class LouvreController extends Controller
             ${'B' . $id . 'V' . $i}->setIdentification('B' . $id . 'V' . $i);
             ${'B' . $id . 'V' . $i}->setBooking($booking);
             ${'B' . $id . 'V' . $i}->setTicketDate($ticketDate);
+            ${'B' . $id . 'V' . $i}->setTicketPrice(0);
             $booking->addVisitor(${'B' . $id . 'V' . $i});
         }
 
@@ -71,20 +72,23 @@ class LouvreController extends Controller
             $booking->setCommandReference($ref);
             $em->persist($booking);
             $visitors = $booking->getVisitors();
+            $priceCounting = $this->get('louvre_ticket.ticketprice');
 
             foreach($visitors as $visitor) {
                 $em->persist($visitor);
+                $em->flush();
+                $ticketPrice = $priceCounting->priceCounting($visitor);
+                $visitor->setTicketPrice($ticketPrice);
+                $em->persist($visitor);
             }
 
-            $em->flush();
 
-            $priceCounting = $this->get('louvre_ticket.ticketprice');
             $totalPrice = $priceCounting->totalCounting($booking);
             $booking->setTotalPrice($totalPrice);
 
             $em->flush();
 
-            return $this->redirectToRoute('louvre_booking_order/id', array('id' => $booking->getId()));
+            return $this->redirectToRoute('booking_order/id', array('id' => $booking->getId()));
         }
 
         return $this->render('LouvreTicketBundle:Louvre:visitors.html.twig', array(
@@ -94,7 +98,7 @@ class LouvreController extends Controller
     }
     
     /**
-     * @Route("/booking/order/{id}", name="louvre_booking_order/id")
+     * @Route("/booking/order/{id}", name="booking_order/id")
      */
     public function orderAction($id, Request $request)
     {
@@ -107,7 +111,7 @@ class LouvreController extends Controller
     }    
     
     /**
-     * @Route("/booking/cancel/{id}", name="louvre_booking_cancel")
+     * @Route("/booking/cancel/{id}", name="booking_cancel")
      */
     public function cancelAction($id, Request $request)
     {
@@ -119,7 +123,7 @@ class LouvreController extends Controller
 
         $request->getSession()->getFlashBag()->add('success', 'Votre commande a bien été annulée.');
 
-        return $this->redirectToRoute('louvre_homepage');
+        return $this->redirectToRoute('homepage');
     }    
     
     /**

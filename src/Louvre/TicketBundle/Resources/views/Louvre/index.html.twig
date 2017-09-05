@@ -7,32 +7,41 @@
 {% block title %}{{ parent () }} | Accueil{% endblock %}
 
 {% block nav %}
-        <div class="container-fluid">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="{{ path('homepage') }}">
-                            <img class="img-responsive" id="logo" src="{{ asset('img/pyramide-logo2-h.png') }}" alt="louvre-logo" />
-                        </a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#carousel">Accueil</a></li>
-                            <li><a href="#billets">Billets</a></li>
-                            <li><a href="#infos">Infos</a></li>
-                            <li><a href="#plan">Plan</a></li>
-                        </ul>
-                    </div>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ path('homepage') }}">
+                        <img class="img-responsive" id="logo" src="{{ asset('img/pyramide-logo2-h.png') }}" alt="louvre-logo" />
+                    </a>
                 </div>
-            </nav>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#carousel">Accueil</a></li>
+                        <li><a href="#billets">Billets</a></li>
+                        <li><a href="#infos">Infos</a></li>
+                        <li><a href="#plan">Plan</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="container alert alert-success alert-dismissible mt-100 mb-50">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ flashMessage }}
         </div>
+    {% endfor %}
+    
 {% endblock %}
-        
+       
+
 {% block content %}
 
     <div id="carousel" class="carousel slide" data-ride="carousel">
@@ -64,7 +73,7 @@
                 <li><a class="indexLink" href="#plan">Le plan d'accès</a></li>
             </ul>
             <p>Toute l'équipe du musée vous souhaite une agréable visite et vous dit "À bientôt !"</p><br>
-            <a href="{{ path('louvre_booking') }}" class="btn col-xs-12 btn-default myBtnDefault"><span class="glyphicon glyphicon-calendar"></span><br>Réservation</a>
+            <a href="{{ path('booking') }}" class="btn col-xs-12 btn-default myBtnDefault"><span class="glyphicon glyphicon-calendar"></span><br>Réservation</a>
         </div>
     </div>
 

@@ -17,9 +17,9 @@ class CheckDate extends Constraint
     
     public $messageMay = "Le musée est fermé le 1er mai.";
     
-    public $messageNovember = "Le musée est fermé le 1er novembre.";
+    public $messageNov = "Le musée est fermé le 1er novembre.";
     
-    public $messageXmas = "Le musée est fermé le 25 décembre.";
+    public $messageDec = "Le musée est fermé le 25 décembre.";
     
     public $messageDay = "Vous ne pouvez plus acheter de billet journée après 14h.";
 }

@@ -81,6 +81,13 @@ class Visitors
      * @ORM\Column(name="reduceTicket", type="boolean")
      */
     private $reduceTicket;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="ticketPrice", type="integer")
+     */
+    private $ticketPrice;
 
 
    /**
@@ -283,5 +290,29 @@ class Visitors
     public function getReduceTicket()
     {
         return $this->reduceTicket;
+    }
+    
+   /**
+     * Set ticketPrice
+     *
+     * @param integer $ticketPrice
+     *
+     * @return Visitors
+     */
+    public function setTicketPrice($ticketPrice)
+    {
+        $this->ticketPrice = $ticketPrice;
+
+        return $this;
+    }
+
+   /**
+     * Get ticketPrice
+     *
+     * @return integer
+     */
+    public function getTicketPrice()
+    {
+        return $this->ticketPrice;
     }
 }
