@@ -50,9 +50,18 @@
     </script>
     
     <script>
-        $('.alert').delay(4000).hide('slow');
+        $('.alert-success').delay(4000).hide('slow');
     </script>    
-
+   
+    <script>
+        $(function() {
+            $("#test").click(function() {
+                $('#test2').removeClass('hidden');
+                $('.alert-warning').delay(4000).hide('slow');
+            });
+        });
+    </script>    
+   
     <script>
         $(function () {
             $("#accordion").accordion({
@@ -67,6 +76,7 @@
             dateFormat: 'dd/mm/yy',
             monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
             dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+            maxDate: '+0M +0D',
             showAnim: "clip"
         });
         $.datepicker.regional['fr'];

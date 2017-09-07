@@ -5,6 +5,9 @@ namespace Louvre\TicketBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Stripe\Stripe;
+use Stripe\Charge;
+use Stripe\Error\Card;
 use Louvre\TicketBundle\Entity\Booking;
 use Louvre\TicketBundle\Entity\Visitors;
 use Louvre\TicketBundle\Form\Type\BookingType;
@@ -94,7 +97,8 @@ class LouvreController extends Controller
         return $this->render('LouvreTicketBundle:Louvre:visitors.html.twig', array(
             'form' => $form->createView(),
             'nbVisitors' => $nbVisitors,
-            'bookingId' => $id));
+            'bookingId' => $id
+        ));
     }
     
     /**
@@ -107,8 +111,39 @@ class LouvreController extends Controller
 
         return $this->render('LouvreTicketBundle:Louvre:order.html.twig', array(
             'booking' => $booking,
-            'bookingId' => $id));
+            'bookingId' => $id
+        ));
     }    
+    
+    /**
+     * @Route("/booking/checkout/{id}", name="booking_checkout")
+     */
+    public function checkoutAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('LouvreTicketBundle:Booking')->find($id);
+        $price = $booking->getTotalPrice();
+        Stripe::setApiKey('sk_test_bIqywos1NSzduIuVfRIWCmzn');
+
+        $token = $_POST['stripeToken'];
+
+        try
+        {
+            $charge = Charge::create(array(
+                'amount' => $price * 100,
+                'currency' => 'eur',
+                'source' => $token,
+                'description' => 'Paiement Stripe - Réservation Louvre'
+            ));
+            
+            $this->addFlash('success','Paiement accepté, vous allez recevoir un email de confirmation de votre achat.');
+            return $this->redirectToRoute('homepage');
+            
+        } catch(Card $e) {
+            $this->addFlash('danger','Paiement refusé.');
+            return $app->redirect($_SERVER['HTTP_REFERER']);;
+        }
+      }
     
     /**
      * @Route("/booking/cancel/{id}", name="booking_cancel")

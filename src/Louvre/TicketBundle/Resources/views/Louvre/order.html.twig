@@ -16,7 +16,7 @@
 
 <div id="jumboBooking" class="jumbotron">
     <div class="container">
-        <h1 id="titreResa">Récapitulatif</h1>
+        <h1 id="titreResa">Récapitulatif avant paiement</h1>
         <p>Étape 3 / </p>
 
         <div class="container well">
@@ -38,7 +38,22 @@
         </div>
 
         <div class="col-sm-12">
-            <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-euro"></span> Payer</button><br>
+            <form action="{{ path('booking_checkout',  {'id': bookingId}) }}" method="POST">
+                <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_test_zWnssmXv2UgM8UA2mpyv1rqx"
+                    data-amount="{{ booking.totalPrice * 100 }}"
+                    data-name="Paiement Stripe"
+                    data-description="Réservation billetterie du Louvre"
+                    data-locale="auto"
+                    data-currency="eur">
+                </script>
+                <script>
+                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                </script>
+                <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-euro"></span> Payer</button>
+            </form><br>
+           
             <a href="{{ path('booking_cancel', {'id': bookingId}) }}" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
         </div>
 

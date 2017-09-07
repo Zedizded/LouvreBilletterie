@@ -142,6 +142,10 @@ label {
     margin-top: 29px;
 }
 
+.warningMessage {
+    font-size: 0.7em;
+}
+
 @media screen and (max-width: 768px) {
     body {
         padding-top: 21px;
