@@ -10,11 +10,11 @@
   
 <div class="logoV">
     <a href="{{ path('homepage') }}">
-        <img class="img-responsive" src="{{ asset('img/pyramide-logo-v.jpg') }}" alt="louvre-logo">
+        <img class="img-responsive" src="{{ asset('img/pyramide-logo-v.jpg') }}" alt="louvre-logo"/>
     </a>
 </div>
 
-<div id="jumboBooking" class="jumbotron">
+<div class="jumbotron jumboBooking">
     <div class="container">
         <h1 id="titreResa">Identification</h1>
         <p>Étape 2 / </p>
@@ -40,14 +40,17 @@
                
                 
                 <div class="well">
-                   
-                    <div class="hidden col-xs-6 col-xs-offset-4 alert alert-warning alert-dismissible mb-50 warningMessage">
+                
+                <h3 class="visitorId">Indentité du visiteur {{ loop.index }}</h3>
+                {% if not form.vars.valid %}
+                    <div class="col-xs-6 col-xs-offset-4 alert alert-warning alert-dismissible mb-50 warningMessage">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <p>{{ form_errors(visitor.visitorName) }}</p>
                         <p>{{ form_errors(visitor.visitorFirstName) }}</p>
                         <p>{{ form_errors(visitor.visitorBirth) }}</p>
                         <p>{{ form_errors(visitor.visitorCountry) }}</p>
                     </div>
+                {% endif %}
                     
                     <div class="form-group">
                         {{ form_label(visitor.visitorName, "Nom* :", { 'label_attr': {

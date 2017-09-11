@@ -7,3 +7,12 @@ services:
         class: Louvre\TicketBundle\Services\TicketsPrices
         arguments:
             - "@doctrine.orm.entity_manager"
+            
+    louvre_ticket.bookingcode:
+        class: Louvre\TicketBundle\Services\BookingCode
+        
+    louvre_ticket.sendingmail:
+        class: Louvre\TicketBundle\Services\SendingMail
+        arguments:
+            - "@mailer"
+            - "@templating"

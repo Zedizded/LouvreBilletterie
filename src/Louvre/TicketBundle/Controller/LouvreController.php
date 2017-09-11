@@ -35,7 +35,9 @@ class LouvreController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $booking->setTotalPrice(0);
-            $ref = $this->bookingCodeAction(5);
+            $number = 5;
+            $bookingCodeService = $this->get('louvre_ticket.bookingcode');
+            $ref = $bookingCodeService->bookingCodeGen($number);
             $booking->setCommandReference($ref);
             $em->persist($booking);
             $em->flush();
@@ -70,8 +72,10 @@ class LouvreController extends Controller
         $form = $this->get('form.factory')->create(VisitorsType::class, $booking);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $ref = $this->bookingCodeAction(10);
-            $ref = ${'B' . $id . 'V1'}->getVisitorName() . '_' . $ref;
+            $number = 10;
+            $bookingCodeService = $this->get('louvre_ticket.bookingcode');
+            $ref = $bookingCodeService->bookingCodeGen($number);
+            $ref = substr(${'B' . $id . 'V1'}->getVisitorName(), 0, 1) . substr(${'B' . $id . 'V1'}->getVisitorFirstName(), 0, 1) . $ref;
             $booking->setCommandReference($ref);
             $em->persist($booking);
             $visitors = $booking->getVisitors();
@@ -118,7 +122,7 @@ class LouvreController extends Controller
     /**
      * @Route("/booking/checkout/{id}", name="booking_checkout")
      */
-    public function checkoutAction($id)
+    public function checkoutAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $booking = $em->getRepository('LouvreTicketBundle:Booking')->find($id);
@@ -127,14 +131,16 @@ class LouvreController extends Controller
 
         $token = $_POST['stripeToken'];
 
-        try
-        {
+        try {
             $charge = Charge::create(array(
                 'amount' => $price * 100,
                 'currency' => 'eur',
                 'source' => $token,
                 'description' => 'Paiement Stripe - Réservation Louvre'
             ));
+                        
+            $Mailer = $this->get('louvre_ticket.sendingmail');
+            $Mailer->send($booking);
             
             $this->addFlash('success','Paiement accepté, vous allez recevoir un email de confirmation de votre achat.');
             return $this->redirectToRoute('homepage');
@@ -143,7 +149,9 @@ class LouvreController extends Controller
             $this->addFlash('danger','Paiement refusé.');
             return $app->redirect($_SERVER['HTTP_REFERER']);;
         }
-      }
+        
+        return $this->render('LouvreTicketBundle:Louvre:index.html.twig');
+    }
     
     /**
      * @Route("/booking/cancel/{id}", name="booking_cancel")
@@ -159,26 +167,6 @@ class LouvreController extends Controller
         $request->getSession()->getFlashBag()->add('success', 'Votre commande a bien été annulée.');
 
         return $this->redirectToRoute('homepage');
-    }    
-    
-    /**
-     * Generate the command's reference
-     *
-     * @param $number
-     *
-     * @return string
-     */
-    private function bookingCodeAction($number) {
-        $ref = date('d/m/Y') . '_';
-        $string = 'A0B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5Q6R7S8U9T0V4W5X6Y7Z5a6b7c8d9e0f1g2h3i4j5k6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z1';
-        $nbChars = strlen($string);
-
-        for($i = 0; $i < $number; $i++)
-        {
-            $ref .= $string[rand(0, ($nbChars-1))];
-        }
-
-        return $ref;
-    }
+    }  
 
 }

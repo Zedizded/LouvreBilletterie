@@ -181,7 +181,7 @@ class Visitors
      */
     public function setVisitorName($visitorName)
     {
-        $this->visitorName = $visitorName;
+        $this->visitorName = ucfirst($visitorName);
 
         return $this;
     }
@@ -205,7 +205,7 @@ class Visitors
      */
     public function setVisitorFirstName($visitorFirstName)
     {
-        $this->visitorFirstName = $visitorFirstName;
+        $this->visitorFirstName = ucfirst($visitorFirstName);
 
         return $this;
     }

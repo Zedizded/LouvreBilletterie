@@ -104,6 +104,14 @@ label {
     padding-left: 29px;
 }
 
+.visitorId {
+    color: #7c7c7c;
+    font-size: 1.4em;
+    text-align: center;
+    letter-spacing: 0.7px;
+    margin-bottom: 50px;
+}
+
 .myBtnDefault {
     color: #7c7c7c;
 }
@@ -122,7 +130,7 @@ label {
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.29);
 }
 
-#jumboBooking {
+.jumboBooking {
     padding-top: 29px
     padding-bottom: 0px;
     margin-bottom: 0px;
@@ -179,7 +187,7 @@ label {
         float: right;
         margin-top: 14.5px;
     }
-    #jumboBooking {
+    .jumboBooking {
         padding-top: 16px;
         padding-bottom: 0px;
     }

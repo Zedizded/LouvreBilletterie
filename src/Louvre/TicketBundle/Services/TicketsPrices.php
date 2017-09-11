@@ -24,31 +24,28 @@ class TicketsPrices
         $ticketType = $booking->getTicketType();
 
         $age = $birth->diff($date)->format('%y');
+        
+        if ($age < 4) {
+            $ticketPrice = 0;
+        }
+        
+        elseif ($age >= 4 && $age < 12) {
+            $ticketPrice = 8;
+        }
 
-        if ($reduceTicket == 1) {
+        elseif ($reduceTicket == 1) {
             $ticketPrice = 10;
+        }
+        
+        else {
             
-        } else {
-            
-            if ($age < 4) {
-                $ticketPrice = 0;
-                
-            }
-            
-            elseif ($age > 4 && $age < 12) {
-                $ticketPrice = 8;
-                
-            }
-            
-            elseif ($age >= 12 && $age < 60) {
+            if ($age >= 12 && $age < 60) {
                 $ticketPrice = 16;
-                
             }
             
             elseif ($age >= 60) {
                 $ticketPrice = 12;
             }
-
         }
         
         if ($ticketType == 0) {

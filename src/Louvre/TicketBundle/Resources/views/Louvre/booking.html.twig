@@ -10,12 +10,12 @@
   
     <div class="logoV">
         <a href="{{ path('homepage') }}">
-            <img class="img-responsive" src="{{ asset('img/pyramide-logo-v.jpg') }}" alt="louvre-logo">
+            <img class="img-responsive" src="{{ asset('img/pyramide-logo-v.jpg') }}" alt="louvre-logo"/>
         </a>
     </div>
 
         
-    <div id="jumboBooking" class="jumbotron">
+    <div class="jumbotron jumboBooking">
         <div class="container">
             <h1 id="titreResa">Réservation</h1>
             <p>Étape 1 / </p>
@@ -23,13 +23,15 @@
                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                 {{ form_errors(form) }}
 
-                <div id="test2" class="hidden col-xs-6 col-xs-offset-4 alert alert-warning alert-dismissible mb-50 warningMessage">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <p>{{ form_errors(form.ticketDate) }}</p>
-                    <p>{{ form_errors(form.email) }}</p>
-                    <p>{{ form_errors(form.ticketType) }}</p>
-                    <p>{{ form_errors(form.totalNbTickets) }}</p>
-                </div>
+                {% if not form.vars.valid %}
+                    <div class="col-xs-6 col-xs-offset-4 alert alert-warning alert-dismissible mb-50 warningMessage">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <p>{{ form_errors(form.ticketDate) }}</p>
+                        <p>{{ form_errors(form.email) }}</p>
+                        <p>{{ form_errors(form.ticketType) }}</p>
+                        <p>{{ form_errors(form.totalNbTickets) }}</p>
+                    </div>
+                {% endif %}
                 
                 <div class="form-group">
                     {{ form_label(form.ticketDate, "Votre visite* :", { 'label_attr': {
@@ -86,7 +88,7 @@
         <p class="requireField">*Champs obligatoires</p>
 
         <div class="form-group">
-            <button id="test" type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-check"></span> Continuer</button><br>
+            <button type="submit" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5 mb-9"><span class="glyphicon glyphicon-check"></span> Continuer</button><br>
             <a href="{{ path('homepage') }}" class="btn btn-default myBtnDefault col-sm-2 col-sm-offset-5"><span class="glyphicon glyphicon-home"></span> Retour</a>
         </div>
 
