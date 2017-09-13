@@ -5,6 +5,7 @@ namespace Louvre\TicketBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use DateTime;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Error\Card;
@@ -12,6 +13,8 @@ use Louvre\TicketBundle\Entity\Booking;
 use Louvre\TicketBundle\Entity\Visitors;
 use Louvre\TicketBundle\Form\Type\BookingType;
 use Louvre\TicketBundle\Form\Type\VisitorsType;
+use OC\PlatformBundle\Entity\Observation;
+use OC\PlatformBundle\Form\ObservationType;
   
 
 class LouvreController extends Controller
@@ -34,6 +37,16 @@ class LouvreController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $post = $_POST['louvre_ticketbundle_booking'];
+            $date = DateTime::createFromFormat('d/m/Y', $post['ticketDate'])->format('Y-m-d');
+            $ticketsSold = $em->getRepository('LouvreTicketBundle:Booking')->ticketsSoldByDay($date);
+
+            if((intval($ticketsSold) + intval($post['totalNbTickets'])) > 1000)
+            {
+                $request->getSession()->getFlashBag()->add('warning', 'Il n\'y a plus assez de billets disponibles pour cette date.');
+                return $this->redirect($_SERVER['HTTP_REFERER']);;
+            }
+            
             $booking->setTotalPrice(0);
             $number = 5;
             $bookingCodeService = $this->get('louvre_ticket.bookingcode');
@@ -89,7 +102,6 @@ class LouvreController extends Controller
                 $em->persist($visitor);
             }
 
-
             $totalPrice = $priceCounting->totalCounting($booking);
             $booking->setTotalPrice($totalPrice);
 
@@ -112,7 +124,7 @@ class LouvreController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $booking = $em->getRepository('LouvreTicketBundle:Booking')->find($id);
-
+        
         return $this->render('LouvreTicketBundle:Louvre:order.html.twig', array(
             'booking' => $booking,
             'bookingId' => $id
@@ -143,11 +155,16 @@ class LouvreController extends Controller
             $Mailer->send($booking);
             
             $this->addFlash('success','Paiement accepté, vous allez recevoir un email de confirmation de votre achat.');
+            $booking->setPaid(true);
+            $em->flush();
+            
+            $request->getSession()->clear();
+            
             return $this->redirectToRoute('homepage');
             
         } catch(Card $e) {
             $this->addFlash('danger','Paiement refusé.');
-            return $app->redirect($_SERVER['HTTP_REFERER']);;
+            return $this->redirect($_SERVER['HTTP_REFERER']);;
         }
         
         return $this->render('LouvreTicketBundle:Louvre:index.html.twig');
@@ -163,6 +180,8 @@ class LouvreController extends Controller
 
         $em->remove($booking);
         $em->flush();
+        
+        $request->getSession()->clear();
 
         $request->getSession()->getFlashBag()->add('success', 'Votre commande a bien été annulée.');
 

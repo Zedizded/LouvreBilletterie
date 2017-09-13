@@ -50,22 +50,9 @@
     </script>
     
     <script>
-        $('.alert-success').delay(4000).hide('slow');
+        $('.alert').delay(4000).hide('slow');
     </script>    
-   
-    <script>
-        $('.alert-warning').delay(4000).hide('slow');
-        
-/*
-        $(function() {
-            $("#test").click(function() {
-                $('#test2').removeClass('hidden');
-                $('.alert-warning').delay(4000).hide('slow');
-            });
-        });
-*/
-    </script>    
-   
+      
     <script>
         $(function () {
             $("#accordion").accordion({
@@ -85,6 +72,26 @@
         });
         $.datepicker.regional['fr'];
     </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('.addSlash').keyup(function(){
+                var nbChar = $(this).val().length;
+                if(nbChar == 2 || nbChar == 5) {
+                    $(this).val($(this).val()+'/');
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        $(function() {
+            $( ".datepicker, .datepickerBooking" ).datepicker();
+            $( ".formateDate" ).on( "change", function() {
+                $( ".datepicker, .datepickerBooking" ).datepicker( "option", "dateFormat", $( this ).val() );
+            });
+        });
+  </script>
     
     <script>
         $('.datepickerBooking').datepicker({

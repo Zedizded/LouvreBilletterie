@@ -43,7 +43,7 @@ class Booking
      * @ORM\Column(name="email", type="string", length=255)
      *
      * @Assert\NotBlank(message="Saisissez votre email")
-     * @Assert\Email(message="L'email '{{ value }}' n'est pas valide.", checkMX = true)
+     * @Assert\Email(message="L'email {{ value }} n'est pas valide.", checkMX = true)
      */
     private $email;
 
@@ -90,6 +90,13 @@ class Booking
      * @ORM\Column(name="totalPrice", type="integer")
      */
     private $totalPrice;
+    
+   /**
+     * @var bool
+     *
+     * @ORM\Column(name="paid", type="boolean")
+     */
+    private $paid;
 
    /**
      * Constructor
@@ -98,6 +105,7 @@ class Booking
     {
         $this->commandDate = new \Datetime();
         $this->visitors = new ArrayCollection();
+        $this->paid = false;
     }
 
    /**
@@ -311,4 +319,28 @@ class Booking
     {
         return $this->totalPrice;
     }
+    
+   /**
+     * Set paid
+     *
+     * @param boolean $paid
+     *
+     * @return Booking
+     */
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * Get paid
+     *
+     * @return boolean
+     */
+    public function getPaid()
+    {
+        return $this->paid;
+    }    
 }
