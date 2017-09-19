@@ -13,8 +13,6 @@ use Louvre\TicketBundle\Entity\Booking;
 use Louvre\TicketBundle\Entity\Visitors;
 use Louvre\TicketBundle\Form\Type\BookingType;
 use Louvre\TicketBundle\Form\Type\VisitorsType;
-use OC\PlatformBundle\Entity\Observation;
-use OC\PlatformBundle\Form\ObservationType;
   
 
 class LouvreController extends Controller
@@ -37,7 +35,7 @@ class LouvreController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $post = $_POST['louvre_ticketbundle_booking'];
+            $post = $request->request->get('louvre_ticketbundle_booking');
             $date = DateTime::createFromFormat('d/m/Y', $post['ticketDate'])->format('Y-m-d');
             $ticketsSold = $em->getRepository('LouvreTicketBundle:Booking')->ticketsSoldByDay($date);
 

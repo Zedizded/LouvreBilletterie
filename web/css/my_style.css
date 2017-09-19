@@ -154,6 +154,10 @@ label {
     font-size: 0.7em;
 }
 
+#error {
+    padding: 0px;
+}
+
 @media screen and (max-width: 768px) {
     body {
         padding-top: 21px;

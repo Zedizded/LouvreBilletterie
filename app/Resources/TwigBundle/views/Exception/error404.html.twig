@@ -1,0 +1,20 @@
+{% extends "LouvreTicketBundle::layout.html.twig" %}
+
+{% block title %}{{ parent () }} - Page introuvable{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+        <a href="{{ path('homepage') }}" class="btn btn-default myBtnDefault btn-lg col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-5">Accueil<br><span class="glyphicon glyphicon-home"></span></a>
+    </div>
+    
+    <div id="error" class="jumbotron">
+        <div class="container">
+            <h1>Oups !</h1>
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                <img class="img-responsive" src="{{ asset('img/pyramide404.png') }}" alt="louvre-logo"/>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -36,7 +36,7 @@
     <script src="{{ asset('lib/jquery-ui/jquery.ui.datepicker-fr.js') }}"></script>
     
     <script>
-        $(function() {
+        $(document).ready(function() {
             $('li>a, .indexLink').on('click', function(e) {
                 e.preventDefault();
                 var hash = this.hash;
@@ -74,7 +74,7 @@
     </script>
     
     <script>
-        $(document).ready(function() {
+        $(function() {
             $('.addSlash').keyup(function(){
                 var nbChar = $(this).val().length;
                 if(nbChar == 2 || nbChar == 5) {
@@ -91,7 +91,7 @@
                 $( ".datepicker, .datepickerBooking" ).datepicker( "option", "dateFormat", $( this ).val() );
             });
         });
-  </script>
+    </script>
     
     <script>
         $('.datepickerBooking').datepicker({
