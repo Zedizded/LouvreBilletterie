@@ -25,7 +25,11 @@
             </div>
             
             <div class="col-sm-12">
-                <p class="text-center"><strong>Vous serez : </strong><br>{{ booking.totalNbTickets }}</p><br>
+                <p class="text-center"><strong>Vous serez : </strong><br>
+                    {% if booking.totalNbTickets == 1 %} seul(e)
+                    {% else %} {{ booking.totalNbTickets }} personnes
+                    {% endif %}
+                </p><br>
             </div>
 
             <div class="col-sm-12">
@@ -34,6 +38,19 @@
             
             <div class="col-sm-12">
                 <p class="text-center"><strong>Votre commande est de : </strong><br>{{ booking.totalPrice }}€</p><br>
+            </div>
+
+            <div class="col-sm-12">
+                <p class="text-center"><strong>Voici le détail de votre commande : </strong><br></p>
+                    {% for visitor in visitors %}
+                        <p class="text-center"><strong>Billet N° {{ loop.index }}</strong></p>
+                        <p class="text-center">{{ visitor.visitorFirstName }} {{ visitor.visitorName }} né le {{ visitor.visitorBirth|date('d/m/Y') }}</p>
+                        <p class="text-center"><b>Tarif :</b> {{ visitor.ticketPrice }} €</p>
+                        {% if visitor.reduceTicket == 1 %}
+                        <p class="text-center" style="font-size: 0.9em;" ><i><b>Tarif réduit : </b>un justificatif vous sera demandé à l'entrée du musée</i></p>
+                        {% endif %}
+                    {% endfor %}
+                <br>
             </div>
         </div>
 

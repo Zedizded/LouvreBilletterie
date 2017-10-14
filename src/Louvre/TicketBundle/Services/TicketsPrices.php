@@ -7,10 +7,20 @@ use Doctrine\ORM\EntityManager;
 class TicketsPrices
 {
     private $em = null;
+    private $youngprice;
+    private $teenprice;
+    private $normalprice;
+    private $seniorprice;
+    private $reduceprice;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $youngprice, $teenprice, $normalprice, $seniorprice, $reduceprice)
     {
         $this->em = $em;
+        $this->youngprice = $youngprice;
+        $this->teenprice = $teenprice;
+        $this->normalprice = $normalprice;
+        $this->seniorprice = $seniorprice;
+        $this->reduceprice = $reduceprice;
     }
 
     public function priceCounting($id)
@@ -26,25 +36,25 @@ class TicketsPrices
         $age = $birth->diff($date)->format('%y');
         
         if ($age < 4) {
-            $ticketPrice = 0;
+            $ticketPrice = $this->youngprice;
         }
         
         elseif ($age >= 4 && $age < 12) {
-            $ticketPrice = 8;
+            $ticketPrice = $this->teenprice;
         }
 
         elseif ($reduceTicket == 1) {
-            $ticketPrice = 10;
+            $ticketPrice = $this->reduceprice;
         }
         
         else {
             
             if ($age >= 12 && $age < 60) {
-                $ticketPrice = 16;
+                $ticketPrice = $this->normalprice;
             }
             
             elseif ($age >= 60) {
-                $ticketPrice = 12;
+                $ticketPrice = $this->seniorprice;
             }
         }
         

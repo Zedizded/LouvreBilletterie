@@ -125,6 +125,7 @@ class LouvreController extends Controller
         
         return $this->render('LouvreTicketBundle:Louvre:order.html.twig', array(
             'booking' => $booking,
+            'visitors' => $booking->getVisitors(),
             'bookingId' => $id
         ));
     }    
