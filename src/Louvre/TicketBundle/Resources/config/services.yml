@@ -7,11 +7,11 @@ services:
         class: Louvre\TicketBundle\Services\TicketsPrices
         arguments:
             - "@doctrine.orm.entity_manager"
-            - 0
-            - 8
-            - 16
-            - 12
-            - 10
+            - %youngprice%
+            - %teenprice%
+            - %normalprice%
+            - %seniorprice%
+            - %reduceprice%
 
             
     louvre_ticket.bookingcode:
